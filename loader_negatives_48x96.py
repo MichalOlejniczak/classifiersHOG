@@ -29,5 +29,7 @@ for j in range(0, len(backgroundLines), 1):
         negatives.append(croppedImage)
 
 negatives = np.array(negatives)
-negatives.dump('initialNegativesCVC04.dat')
+name = splitPath[1].rsplit('.', 1)[0]
+
+negatives.dump(name + 'negative_patches_48x96.dat')
 print str(len(negatives)) + " negatives were loaded"

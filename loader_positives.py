@@ -21,7 +21,9 @@ for i in range(0, len(pedestriansLines), 1):
     positives.append(pedestrianImage)
 
 positives = np.array(positives)
-positives.dump('posCVC03.dat')
+
+name = splitPath[1].rsplit('.', 1)[0]
+positives.dump(name + ".dat")
 
 print str(len(positives)) + " positives were loaded."
 
