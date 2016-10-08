@@ -28,7 +28,9 @@ naiveBayesClassifier = GaussianNB()
 naiveBayesClassifier.fit(x, y)
 
 elapsedTimeNaiveBayes = timeit.default_timer() - startTimeNaiveBayes
-joblib.dump(naiveBayesClassifier, args['saveAs'] + '.pkl', compress=3)
+
+with open(args['saveAs'], "wb") as f:
+    joblib.dump(naiveBayesClassifier, f, compress=3)
 
 print()
 print("Time taken: ", elapsedTimeNaiveBayes)

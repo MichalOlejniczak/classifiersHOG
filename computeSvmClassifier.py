@@ -36,7 +36,10 @@ svmClassifier = GridSearchCV(svm.SVC(), param_grid=svmParamGrid, cv=5, n_jobs=4)
 svmClassifier.fit(x, y)
 
 elapsedSvm = timeit.default_timer() - startTimeSvm
-joblib.dump(svmClassifier, args['saveAs'] + '.pkl', compress=3)
+
+with open(args['saveAs'], "wb") as f:
+    joblib.dump(svmClassifier.best_estimator_, f, compress=3)
+
 print()
 print("Time taken: ", elapsedSvm)
 print()

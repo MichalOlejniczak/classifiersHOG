@@ -34,8 +34,8 @@ randomForestClassifier = GridSearchCV(RandomForestClassifier(), param_grid=rando
 randomForestClassifier.fit(x, y)
 
 elapsedRandomForest = timeit.default_timer() - startTimeRandomForest
-joblib.dump(randomForestClassifier, args['saveAs'] + '.pkl', compress=3)
-
+with open(args['saveAs'], "wb") as f:
+    joblib.dump(randomForestClassifier.best_estimator_, f, compress=3)
 
 print()
 print("Time taken: ", elapsedRandomForest)
@@ -45,5 +45,3 @@ print("Best parameters set found on development set:")
 print()
 print(randomForestClassifier.best_params_)
 print()
-
-

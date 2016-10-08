@@ -4,7 +4,7 @@ import random
 import cv2
 import argparse
 
-# Path /home/michalo/Phd/DataBases/CVC03-Virtual-Pedestrian/train/background-frames/backgorundsCvc03.txt
+# Path /home/michalo/Phd/DataBases/CVC03-Virtual-Pedestrian/train/background-frames/backgroundsCvc03.txt
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--images", required=True, help="Path to the file with image list")
@@ -18,7 +18,7 @@ backgroundLines = backgroundFile.readlines()
 negatives = []
 splitPath = path.rsplit('/', 1)
 
-for j in range(0, len(backgroundLines), 1):
+for j in range(0, 50, 1):
     backgroundImage = cv2.imread(splitPath[0] + "/" + backgroundLines[j].rstrip("\r\n"), 0)
     for z in range(0, 7, 1):
         xRand = random.randint(1, 530)

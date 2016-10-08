@@ -32,8 +32,10 @@ decisionTreeClassifier = GridSearchCV(tree.DecisionTreeClassifier(), param_grid=
 fitResult = decisionTreeClassifier.fit(x, y)
 
 elapsedDecisionTree = timeit.default_timer() - startTimeDecisionTree
-joblib.dump(decisionTreeClassifier,
-            args['saveAs'] + '.pkl', compress=3)
+
+with open(args['saveAs'], "wb") as f:
+    joblib.dump(decisionTreeClassifier.best_estimator_, f, compress=3)
+
 print()
 print("Time taken: ", elapsedDecisionTree)
 print()

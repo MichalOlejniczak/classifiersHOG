@@ -16,7 +16,7 @@ pedestriansLines = pedestriansFile.readlines()
 positives = []
 splitPath = path.rsplit('/', 1)
 
-for i in range(0, len(pedestriansLines), 1):
+for i in range(0, 50, 1):
     pedestrianImage = cv2.imread(splitPath[0] + "/" + pedestriansLines[i].rstrip("\r\n"), 0)
     positives.append(pedestrianImage)
 
