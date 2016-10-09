@@ -9,7 +9,7 @@ import argparse
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--positives", required=True, help="Path to positives")
 ap.add_argument('-n', '--negatives', required=True, help="Path to negatives")
-ap.add_argument('-s', '--saveAs', required=True, help="Save as")
+ap.add_argument('-c', '--saveAs', required=True, help="Save as")
 args = vars(ap.parse_args())
 
 positives = np.load(args['positives'])
@@ -34,7 +34,9 @@ fitResult = decisionTreeClassifier.fit(x, y)
 elapsedDecisionTree = timeit.default_timer() - startTimeDecisionTree
 
 with open(args['saveAs'], "wb") as f:
-    joblib.dump(decisionTreeClassifier.best_estimator_, f, compress=3)
+    joblib.dump(decisionTreeClassifier.best_estimator_, f + ".pkl", compress=3)
+    joblib.dump(x, "samples_" + args['saveAs'] + ".dat")
+    joblib.dump(y, "labels_" + args['saveAs'] + ".dat")
 
 print()
 print("Time taken: ", elapsedDecisionTree)

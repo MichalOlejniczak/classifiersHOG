@@ -10,7 +10,7 @@ import argparse
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--positives", required=True, help="Path to positives")
 ap.add_argument('-n', '--negatives', required=True, help="Path to negatives")
-ap.add_argument('-s', '--saveAs', required=True, help="Save as")
+ap.add_argument('-d', '--saveAs', required=True, help="Save as")
 
 args = vars(ap.parse_args())
 
@@ -38,7 +38,9 @@ svmClassifier.fit(x, y)
 elapsedSvm = timeit.default_timer() - startTimeSvm
 
 with open(args['saveAs'], "wb") as f:
-    joblib.dump(svmClassifier.best_estimator_, f, compress=3)
+    joblib.dump(svmClassifier.best_estimator_, f + ".pkl", compress=3)
+    joblib.dump(x, "samples_" + args['saveAs'] + ".dat")
+    joblib.dump(y, "labels_" + args['saveAs'] + ".dat")
 
 print()
 print("Time taken: ", elapsedSvm)

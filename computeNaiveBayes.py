@@ -30,7 +30,9 @@ naiveBayesClassifier.fit(x, y)
 elapsedTimeNaiveBayes = timeit.default_timer() - startTimeNaiveBayes
 
 with open(args['saveAs'], "wb") as f:
-    joblib.dump(naiveBayesClassifier, f, compress=3)
+    joblib.dump(naiveBayesClassifier, f + ".pkl", compress=3)
+    joblib.dump(x, "samples_" + args['saveAs'] + ".dat")
+    joblib.dump(y, "labels_" + args['saveAs'] + ".dat")
 
 print()
 print("Time taken: ", elapsedTimeNaiveBayes)
