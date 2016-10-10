@@ -8,7 +8,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-s", "--samples", required=True, help="Path to samples")
 ap.add_argument('-l', '--labels', required=True, help="Path to labels")
 ap.add_argument('-he', '--hardExamples', required=True, help="Path to hard examples")
-ap.add_argument('-ss', '--saveAs', required=True, help="Save as")
+ap.add_argument('-d', '--saveAs', required=True, help="Save as")
 
 args = vars(ap.parse_args())
 
@@ -27,12 +27,12 @@ x = x.reshape(len(x), -1)
 
 X = x
 y = y
-#
+
 # pca = PCA(n_components=2)
 # X_vis = pca.fit_transform(X)
 
 
-rus = ClusterCentroids(ratio=0.5)
+rus = ClusterCentroids(ratio=0.6)
 X_resampled, y_resampled = rus.fit_sample(X, y)
 
 np.array(X_resampled).dump('sub_samples_' + args['saveAs'] + '.dat')

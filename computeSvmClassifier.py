@@ -8,22 +8,13 @@ from sklearn.model_selection import GridSearchCV
 import argparse
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--positives", required=True, help="Path to positives")
-ap.add_argument('-n', '--negatives', required=True, help="Path to negatives")
-ap.add_argument('-d', '--saveAs', required=True, help="Save as")
-
+ap.add_argument("-s", "--samples", required=True, help="Path to samples")
+ap.add_argument('-l', '--labels', required=True, help="Path to labels")
+ap.add_argument('-c', '--saveAs', required=True, help="Save as")
 args = vars(ap.parse_args())
 
-positives = np.load(args['positives'])
-negatives = np.load(args['negatives'])
-
-ones = np.ones(len(positives))
-zeros = np.zeros(len(negatives))
-
-x = np.concatenate((positives, negatives), axis=0)
-y = np.concatenate((ones, zeros), axis=0)
-
-x = x.reshape(len(x), -1)
+samples = np.load(args['samples'])
+labels = np.load(args['labels'])
 
 svmParamGrid = [{'C': [0.01, 0.1, 1, 10, 100, 1000], 'kernel': ['linear']},
                 {'C': [0.01, 0.1, 1, 10, 100, 1000], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']},
@@ -33,14 +24,12 @@ svmParamGrid = [{'C': [0.01, 0.1, 1, 10, 100, 1000], 'kernel': ['linear']},
 startTimeSvm = timeit.default_timer()
 
 svmClassifier = GridSearchCV(svm.SVC(), param_grid=svmParamGrid, cv=5, n_jobs=4)
-svmClassifier.fit(x, y)
+svmClassifier.fit(samples, labels)
 
 elapsedSvm = timeit.default_timer() - startTimeSvm
 
-with open(args['saveAs'], "wb") as f:
-    joblib.dump(svmClassifier.best_estimator_, f + ".pkl", compress=3)
-    joblib.dump(x, "samples_" + args['saveAs'] + ".dat")
-    joblib.dump(y, "labels_" + args['saveAs'] + ".dat")
+with open(args['saveAs'] + ".pkl", "wb") as f:
+    joblib.dump(svmClassifier.best_estimator_, f, compress=3)
 
 print()
 print("Time taken: ", elapsedSvm)
@@ -50,3 +39,10 @@ print("Best parameters set found on development set:")
 print()
 print(svmClassifier.best_params_)
 print()
+
+summary = open('summary_decision_tree_' + args['saveAs'] + '.txt', 'wb')
+
+print >> summary, "Time taken: " + str(elapsedSvm)
+print >> summary, "Best parameters set found on development set:"
+print >> summary, svmClassifier.best_params_
+print >> summary, "Best score found on development set: " + str(svmClassifier.best_score_)

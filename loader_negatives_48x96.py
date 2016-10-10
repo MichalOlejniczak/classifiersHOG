@@ -18,7 +18,7 @@ backgroundLines = backgroundFile.readlines()
 negatives = []
 splitPath = path.rsplit('/', 1)
 
-for j in range(0, 50, 1):
+for j in range(0, len(backgroundLines), 1):
     backgroundImage = cv2.imread(splitPath[0] + "/" + backgroundLines[j].rstrip("\r\n"), 0)
     for z in range(0, 7, 1):
         xRand = random.randint(1, 530)

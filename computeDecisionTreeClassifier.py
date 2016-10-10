@@ -7,21 +7,13 @@ from sklearn.model_selection import GridSearchCV
 import argparse
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--positives", required=True, help="Path to positives")
-ap.add_argument('-n', '--negatives', required=True, help="Path to negatives")
+ap.add_argument("-s", "--samples", required=True, help="Path to samples")
+ap.add_argument('-l', '--labels', required=True, help="Path to labels")
 ap.add_argument('-c', '--saveAs', required=True, help="Save as")
 args = vars(ap.parse_args())
 
-positives = np.load(args['positives'])
-negatives = np.load(args['negatives'])
-
-ones = np.ones(len(positives))
-zeros = np.zeros(len(negatives))
-
-x = np.concatenate((positives, negatives), axis=0)
-y = np.concatenate((ones, zeros), axis=0)
-
-x = x.reshape(len(x), -1)
+samples = np.load(args['samples'])
+labels = np.load(args['labels'])
 
 decisionTreeParamGrid = [{'splitter': ['best'], 'max_depth': [10, 50, 100, None], 'min_samples_split': [2, 3, 6]},
                          {'splitter': ['random'], 'max_depth': [10, 50, 100, None], 'min_samples_split': [2, 3, 6]}]
@@ -29,14 +21,12 @@ decisionTreeParamGrid = [{'splitter': ['best'], 'max_depth': [10, 50, 100, None]
 startTimeDecisionTree = timeit.default_timer()
 
 decisionTreeClassifier = GridSearchCV(tree.DecisionTreeClassifier(), param_grid=decisionTreeParamGrid, cv=5, n_jobs=-1)
-fitResult = decisionTreeClassifier.fit(x, y)
+fitResult = decisionTreeClassifier.fit(samples, labels)
 
 elapsedDecisionTree = timeit.default_timer() - startTimeDecisionTree
 
-with open(args['saveAs'], "wb") as f:
-    joblib.dump(decisionTreeClassifier.best_estimator_, f + ".pkl", compress=3)
-    joblib.dump(x, "samples_" + args['saveAs'] + ".dat")
-    joblib.dump(y, "labels_" + args['saveAs'] + ".dat")
+with open(args['saveAs'] + ".pkl", "wb") as f:
+    joblib.dump(decisionTreeClassifier.best_estimator_, f, compress=3)
 
 print()
 print("Time taken: ", elapsedDecisionTree)
@@ -46,3 +36,10 @@ print("Best parameters set found on development set:")
 print()
 print(decisionTreeClassifier.best_params_)
 print()
+
+summary = open('summary_decision_tree_' + args['saveAs'] + '.txt', 'wb')
+
+print >> summary, "Time taken: " + str(elapsedDecisionTree)
+print >> summary, "Best parameters set found on development set:"
+print >> summary, decisionTreeClassifier.best_params_
+print >> summary, "Best score found on development set: " + str(decisionTreeClassifier.best_score_)

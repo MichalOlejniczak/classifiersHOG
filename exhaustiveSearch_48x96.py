@@ -12,7 +12,7 @@ from helpers import sliding_window, pyramid
 ap = argparse.ArgumentParser()
 ap.add_argument("-c", "--classifier", required=True, help="Path to classifier")
 ap.add_argument('-b', '--backgroundImagesAsSingleDat', required=True, help="Path to background images")
-ap.add_argument('-d', '--saveAs', required=True, help="Save as")
+ap.add_argument('-s', '--saveAs', required=True, help="Save as")
 
 args = vars(ap.parse_args())
 
