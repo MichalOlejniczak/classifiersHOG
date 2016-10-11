@@ -32,7 +32,7 @@ y = y
 # X_vis = pca.fit_transform(X)
 
 
-rus = ClusterCentroids(ratio=0.6)
+rus = ClusterCentroids(ratio=0.2341)
 X_resampled, y_resampled = rus.fit_sample(X, y)
 
 np.array(X_resampled).dump('sub_samples_' + args['saveAs'] + '.dat')
