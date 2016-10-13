@@ -1,0 +1,4 @@
+Time taken: 2109.80145192
+Best parameters set found on development set:
+{'min_samples_split': 3, 'splitter': 'best', 'max_depth': 10}
+Best score found on development set: 0.893623361144

@@ -1,0 +1,3 @@
+Time taken: 0.566806793213
+Parameters:
+{'priors': None}
