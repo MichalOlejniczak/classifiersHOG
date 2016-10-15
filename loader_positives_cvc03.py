@@ -23,7 +23,6 @@ for i in range(0, len(pedestriansLines), 1):
 positives = np.array(positives)
 
 name = splitPath[1].rsplit('.', 1)[0]
-positives.dump(name + ".dat")
+positives.dump("cvc03_" + name + "48x96.dat")
 
 print str(len(positives)) + " positives were loaded."
-
