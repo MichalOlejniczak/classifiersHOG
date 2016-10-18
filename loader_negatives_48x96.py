@@ -5,7 +5,7 @@ import cv2
 import argparse
 
 # Path /home/michalo/Phd/DataBases/CVC03-Virtual-Pedestrian/train/background-frames/backgroundsCvc03.txt
-
+# Path /home/michalo/Phd/DataBases/CVC04-Virtual2/FramesNeg/files.txt
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--images", required=True, help="Path to the file with image list")
 args = vars(ap.parse_args())
@@ -31,5 +31,5 @@ for j in range(0, len(backgroundLines), 1):
 negatives = np.array(negatives)
 name = splitPath[1].rsplit('.', 1)[0]
 
-negatives.dump(name + 'negative_patches_48x96.dat')
+negatives.dump(name + '_negative_patches_48x96.dat')
 print str(len(negatives)) + " negatives were loaded"

@@ -19,3 +19,7 @@ x = samples.reshape(len(samples), -1)
 
 yTrue, yPred = labels, classifier.predict(x)
 print(classification_report(yTrue, yPred))
+
+summary = open('validation_report' + '.txt', 'wb')
+
+print >> summary, classification_report(yTrue, yPred)

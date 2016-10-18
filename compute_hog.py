@@ -25,7 +25,7 @@ for i in range(0, len(positives), 1):
     samples.append(currentHog)
     labels.append(1)
 
-for j in range(0, len(positives), 1):
+for j in range(0, len(negatives), 1):
     currentHog = hog(negatives[j], orientations=orientation, pixels_per_cell=pixelsPerCell,
                      cells_per_block=cellsPerBlock, transform_sqrt=True, feature_vector=True)
     samples.append(currentHog)
