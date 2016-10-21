@@ -7,7 +7,6 @@ import numpy as np
 from skimage.feature import hog
 from sklearn.externals import joblib
 from sklearn.externals.joblib import delayed
-from sklearn.naive_bayes import GaussianNB
 
 from helpers import sliding_window, pyramid
 
