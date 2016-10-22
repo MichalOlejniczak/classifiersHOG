@@ -41,19 +41,19 @@ cellsPerBlock = (3, 3)
 def process_input(i):
     windows = []
     background_image = cv2.imread(splitPath[0] + "/" + backgroundLines[i].rstrip("\r\n"), 0)
-    for resized in pyramid(background_image, scale=1.2):
-        for (x, y, window) in sliding_window(resized, stepSize=15, windowSize=(winW, winH)):
-            # if the window does not meet our desired window size, ignore it
-            if window.shape[0] != winH or window.shape[1] != winW:
-                continue
+    # for resized in pyramid(background_image, scale=1.2):
+    for (x, y, window) in sliding_window(background_image, stepSize=15, windowSize=(winW, winH)):
+        # if the window does not meet our desired window size, ignore it
+        if window.shape[0] != winH or window.shape[1] != winW:
+            continue
 
-            check_hog = hog(window, orientations=orientation, pixels_per_cell=pixelsPerCell,
-                            cells_per_block=cellsPerBlock, transform_sqrt=True, feature_vector=True)
+        check_hog = hog(window, orientations=orientation, pixels_per_cell=pixelsPerCell,
+                        cells_per_block=cellsPerBlock, transform_sqrt=True, feature_vector=True)
 
-            c = bayes.predict_proba(check_hog.reshape(1, -1))
-            if c[0][1] > 0.88:
-                if model.predict(check_hog.reshape(1, -1)) == [1]:
-                    windows.append(check_hog)
+        c = bayes.predict_proba(check_hog.reshape(1, -1))
+        if c[0][1] > 0.40:
+            if model.predict(check_hog.reshape(1, -1)) == [1]:
+                windows.append(check_hog)
     return windows
 
 
