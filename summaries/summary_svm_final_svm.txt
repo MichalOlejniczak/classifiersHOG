@@ -1,0 +1,4 @@
+Time taken: 54517.0531919
+Best parameters set found on development set:
+{'kernel': 'rbf', 'C': 1000, 'gamma': 0.001}
+Best score found on development set: 0.931764004768

@@ -1,5 +1,6 @@
 import argparse
 import numpy as np
+import timeit
 
 from sklearn.externals import joblib
 from sklearn.metrics import classification_report
@@ -17,9 +18,12 @@ with open(args['classifier'], "rb") as f:
 
 x = samples.reshape(len(samples), -1)
 
+startTimeSvm = timeit.default_timer()
 yTrue, yPred = labels, classifier.predict(x)
+elapsedSvm = timeit.default_timer() - startTimeSvm
 print(classification_report(yTrue, yPred))
 
 summary = open('validation_report' + '.txt', 'wb')
 
 print >> summary, classification_report(yTrue, yPred)
+print >> summary, "Time taken: " + str(elapsedSvm)
